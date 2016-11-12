@@ -1057,6 +1057,8 @@ ReferenceSources/Win32Exception.cs
 ../referencesource/System/net/System/Net/Sockets/IPPacketInformation.cs
 ../referencesource/System/net/System/Net/Sockets/IPProtectionLevel.cs
 ../referencesource/System/net/System/Net/Sockets/LingerOption.cs
+../referencesource/System/net/System/Net/Sockets/MPTCPSubIds.cs
+../referencesource/System/net/System/Net/Sockets/MPTCPSubStatus.cs
 ../referencesource/System/net/System/Net/Sockets/MulticastOption.cs
 ../referencesource/System/net/System/Net/Sockets/NetworkStream.cs
 ../referencesource/System/net/System/Net/Sockets/ProtocolFamily.cs

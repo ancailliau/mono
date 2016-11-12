@@ -46,6 +46,20 @@
 #define MPTCP_SUB_GETSOCKOPT    71  /* Get sockopt for a specific sub */
 #define MPTCP_SUB_SETSOCKOPT    72  /* Set sockopt for a specific sub */
 
+struct mptcp_sub_status {
+    uint8_t    id;
+    uint16_t   slave_sk:1,
+        fully_established:1,
+        attached:1,
+        low_prio:1,
+        pre_established:1;
+};
+
+struct mptcp_sub_ids {
+    uint8_t            sub_count;
+    struct mptcp_sub_status sub_status[];
+};
+
 #ifdef HAVE_NETDB_H
 #include <netdb.h>
 #endif
@@ -1976,6 +1990,10 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 	socklen_t lingersize = sizeof (linger);
 	int time_ms = 0;
 	socklen_t time_ms_size = sizeof (time_ms);
+
+    struct mptcp_sub_ids mptcp_sub_ids;
+    socklen_t mptcp_sub_ids_size = sizeof (mptcp_sub_ids);
+
 #ifdef SO_PEERCRED
 #  if defined(__OpenBSD__)
 	struct sockpeercred cred;
@@ -2036,6 +2054,10 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 		break;
 #endif
 
+    case SocketOptionName_MPTCPGetSubIds:
+        ret = _wapi_getsockopt (sock, system_level, system_name, &mptcp_sub_ids, &mptcp_sub_ids_size);
+        break;
+
 	default:
 		ret = _wapi_getsockopt (sock, system_level, system_name, &val, &valsize);
 	}
@@ -2048,6 +2070,24 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 	}
 	
 	switch (name) {
+
+	case SocketOptionName_MPTCPGetSubIds:
+		/* build a System.Net.Sockets.MPTCPSubIds */
+		obj_class = mono_class_load_from_name (get_socket_assembly (),
+											   "System.Net.Sockets",
+											   "MPTCPSubIds");
+		obj = mono_object_new_checked (domain, obj_class, &error);
+		if (!mono_error_ok (&error)) {
+			mono_error_set_pending_exception (&error);
+			return;
+		}
+
+		/* Locate and set the fields "int sub_count"
+		 */
+		field = mono_class_get_field_from_name(obj_class, "sub_count");
+		*(guint8 *)(((char *)obj)+field->offset) = mptcp_sub_ids.sub_count;
+		break;
+
 	case SocketOptionName_Linger:
 		/* build a System.Net.Sockets.LingerOption */
 		obj_class = mono_class_load_from_name (get_socket_assembly (),

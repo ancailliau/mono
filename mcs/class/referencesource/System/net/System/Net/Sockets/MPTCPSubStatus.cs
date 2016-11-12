@@ -10,7 +10,7 @@ namespace System.Net.Sockets {
         int pre_established;
 
         public MPTCPSubStatus(int id, int slave_sk, int fully_established, int attached, int pre_established) {
-            SubCount = sub_count;
+            Id = id;
         }
         
         public int Id {
