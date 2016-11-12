@@ -31,12 +31,32 @@
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
+
+// TODO Fix this
+#if 1
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+// MPTCP Socket API
+// TODO Move to <netinet/tcp.h>
+#define MPTCP_GET_SUB_IDS       66  /* Get subflows ids */
+#define MPTCP_CLOSE_SUB_ID      67  /* Close sub id */
+#define MPTCP_GET_SUB_TUPLE     68  /* Get sub tuple */
+#define MPTCP_OPEN_SUB_TUPLE    69  /* Open sub tuple */
+
+#define MPTCP_SUB_GETSOCKOPT    71  /* Get sockopt for a specific sub */
+#define MPTCP_SUB_SETSOCKOPT    72  /* Set sockopt for a specific sub */
+
 #ifdef HAVE_NETDB_H
 #include <netdb.h>
 #endif
 #include <arpa/inet.h>
+
+#else
+// TODO Is this a better option ???
+#include <linux/in.h>
+#include <linux/tcp.h>
+#endif
+
 #endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -534,6 +554,24 @@ convert_sockopt_level_and_name (MonoSocketOptionLevel mono_level, MonoSocketOpti
 		case SocketOptionName_NoDelay:
 			*system_name = TCP_NODELAY;
 			break;
+
+        /* Socket option for MPTCP */		
+        case SocketOptionName_MPTCPGetSubIds:
+			*system_name = MPTCP_GET_SUB_IDS;
+			break;
+
+        case SocketOptionName_MPTCPCloseSubId:
+			*system_name = MPTCP_CLOSE_SUB_ID;
+			break;
+
+        case SocketOptionName_MPTCPGetSubTuple:
+			*system_name = MPTCP_GET_SUB_TUPLE;
+			break;
+
+        case SocketOptionName_MPTCPOpenSubTuble:
+			*system_name = MPTCP_OPEN_SUB_TUPLE;
+			break;
+
 #if 0
 			/* The documentation is talking complete
 			 * bollocks here: rfc-1222 is titled

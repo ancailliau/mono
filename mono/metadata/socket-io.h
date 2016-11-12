@@ -135,6 +135,14 @@ typedef enum {
 	SocketOptionName_ChecksumCoverage=20,
 	SocketOptionName_HopLimit=21,
 
+    /* Socket options for MPTCP */
+    SocketOptionName_MPTCPGetSubIds     = 66,
+    SocketOptionName_MPTCPCloseSubId    = 67,
+    SocketOptionName_MPTCPGetSubTuple   = 68,
+    SocketOptionName_MPTCPOpenSubTuble  = 69,
+    // SocketOptionName_MPTCPGetSockOpt = 71,
+    // SocketOptionName_MPTCPSetSockOpt = 72,
+
 	/* This is Mono-specific, keep it in sync with
 	 * Mono.Posix/PeerCred.cs
 	 */
