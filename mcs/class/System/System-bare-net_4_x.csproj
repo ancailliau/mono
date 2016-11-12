@@ -630,6 +630,8 @@
     <Compile Include="..\referencesource\System\net\System\Net\Sockets\IPPacketInformation.cs" />
     <Compile Include="..\referencesource\System\net\System\Net\Sockets\IPProtectionLevel.cs" />
     <Compile Include="..\referencesource\System\net\System\Net\Sockets\LingerOption.cs" />
+    <Compile Include="..\referencesource\System\net\System\Net\Sockets\MPTCPSubIds.cs" />
+    <Compile Include="..\referencesource\System\net\System\Net\Sockets\MPTCPSubStatus.cs" />
     <Compile Include="..\referencesource\System\net\System\Net\Sockets\MulticastOption.cs" />
     <Compile Include="..\referencesource\System\net\System\Net\Sockets\NetworkStream.cs" />
     <Compile Include="..\referencesource\System\net\System\Net\Sockets\ProtocolFamily.cs" />
