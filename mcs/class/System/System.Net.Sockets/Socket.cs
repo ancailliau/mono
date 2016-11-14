@@ -2348,6 +2348,8 @@ m_Handle, buffer, offset + sent, size - sent, socketFlags, out nativeError, is_b
 				return (LingerOption) obj_val;
 			else if (optionName == SocketOptionName.AddMembership || optionName == SocketOptionName.DropMembership)
 				return (MulticastOption) obj_val;
+            else if (optionName == SocketOptionName.MPTCPSubIds)
+                return (MPTCPSubIds) obj_val;
 			else if (obj_val is int)
 				return (int) obj_val;
 			else

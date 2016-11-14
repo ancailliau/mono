@@ -1981,6 +1981,9 @@ int_to_object (MonoDomain *domain, int val, MonoError *error)
 void
 ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, gint32 level, gint32 name, MonoObject **obj_val, gint32 *werror)
 {
+    g_print("ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal Called");
+    g_warning("ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal CALLED");
+
 	int system_level = 0;
 	int system_name = 0;
 	int ret;
@@ -2008,6 +2011,8 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 	MonoClass *obj_class;
 	MonoClassField *field;
 	
+    g_print("lili");
+
 	*werror = 0;
 	
 #if !defined(SO_EXCLUSIVEADDRUSE) && defined(SO_REUSEADDR)
@@ -2030,6 +2035,8 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 		mono_error_set_pending_exception (&error);
 		return;
 	}
+
+    g_print("lala");
 
 	MONO_ENTER_GC_SAFE;
 
@@ -2056,6 +2063,7 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 
     case SocketOptionName_MPTCPGetSubIds:
         ret = _wapi_getsockopt (sock, system_level, system_name, &mptcp_sub_ids, &mptcp_sub_ids_size);
+        g_print("_wapi_getsockopt called for MPTCP");
         break;
 
 	default:
@@ -2078,6 +2086,7 @@ ves_icall_System_Net_Sockets_Socket_GetSocketOption_obj_internal (SOCKET sock, g
 											   "MPTCPSubIds");
 		obj = mono_object_new_checked (domain, obj_class, &error);
 		if (!mono_error_ok (&error)) {
+            g_print("ERROR when creating MPTCPSubIds object instance");
 			mono_error_set_pending_exception (&error);
 			return;
 		}

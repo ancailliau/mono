@@ -304,6 +304,8 @@ namespace System.Net.Sockets {
 
         UpdateConnectContext = 0x7010,
 
+        MPTCPSubIds             = 66,
+
     }; // enum SocketOptionName
 
 
